@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+
+}
+
+model Service {
+  id              String      @id @default(uuid())
+  name            String
+  price           Decimal
+  description     String
+  orders          Order[]     @relation("OrderToService")
+  
+}
+
+model Automobile {
+  id              String      @id @default(uuid())
+  name            String
+  description     String
+  price           Decimal
+  images          Image[]
+  order           Order[]     @relation("OrderToAutomobile")
+  
+}
+
+model Image {
+  id          String @id @default(uuid())
+  automobileId String
+  automobile   Automobile @relation(fields: [automobileId], references: [id], onDelete: Cascade)
+  url         String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+}
+
+model User {
+  id        String @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  orders    Order[]  @relation("OrderToUser")
+
+}
+
+model Order {
+  id           String    @id @default(uuid())
+  createdAt    DateTime  @default(now())
+  services     Service[] @relation("OrderToService")
+  automobileId String
+  automobile   Automobile @relation("OrderToAutomobile" ,fields: [automobileId], references: [id])
+  userId       String
+  user         User       @relation("OrderToUser", fields: [userId], references: [id])
+
+  @@index([automobileId])
+}
