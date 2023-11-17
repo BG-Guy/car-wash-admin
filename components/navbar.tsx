@@ -19,7 +19,7 @@ const Navbar = async () => {
         <div className="flex h-16 items-center">
           <Logo />
           <MainNav />
-          <div className="ml-auto flex items-center space-x-4">
+          <div className="ml-4 flex items-center ">
             <UserButton afterSignOutUrl="/" />
           </div>
         </div>

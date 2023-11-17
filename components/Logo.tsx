@@ -18,7 +18,7 @@ const Logo = () => {
         width="50"
         src={"/images/logo.png"}
       />
-      <div className="text-center m-0 w-64 flex text-3xl font-title">
+      <div className="text-center m-0 w-48 flex text-3xl font-title">
         Car Wash
       </div>
     </div>

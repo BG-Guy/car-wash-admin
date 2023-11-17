@@ -20,42 +20,40 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { AutomobileColumn } from "@/app/(root)/automobiles/components/column";
+import { ServiceColumn } from "./column";
 
-interface DataTableProps<TData, TValue> {
+interface ServiceTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   initialData: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function ServiceTable<TData, TValue>({
   columns,
   initialData,
-}: DataTableProps<TData, TValue>) {
-  const [changeAutobmobile, setChangedAutomobiles] = useState<
-    AutomobileColumn[]
-  >([]);
+}: ServiceTableProps<TData, TValue>) {
+  const [changedServices, setChangedServices] = useState<ServiceColumn[]>([]);
   const router = useRouter();
 
   const [data, setData] = useState(initialData);
 
-  const updateOrAddItem = (item: AutomobileColumn) => {
+  const updateOrAddItem = (item: ServiceColumn) => {
     // If there isn't any item in the array, add the item
-    if (changeAutobmobile.length === 0) {
-      setChangedAutomobiles((prevService) => {
+    if (changedServices.length === 0) {
+      setChangedServices((prevService) => {
         return [...prevService, item];
       });
       return;
     }
 
-    if (changeAutobmobile.some((automobile) => automobile.id === item.id)) {
-      setChangedAutomobiles((prevServices) => {
+    if (changedServices.some((automobile) => automobile.id === item.id)) {
+      setChangedServices((prevServices) => {
         // Replacing the existing item
         return prevServices.map((automobile) =>
           automobile.id === item.id ? item : automobile
         );
       });
     } else {
-      setChangedAutomobiles((prevServices) => {
+      setChangedServices((prevServices) => {
         // Add the new item
         return [...prevServices, item];
       });
@@ -64,7 +62,7 @@ export function DataTable<TData, TValue>({
 
   const onSave = async () => {
     try {
-      const updatePromises = changeAutobmobile.map(async (item) => {
+      const updatePromises = changedServices.map(async (item) => {
         const formattedItem = {
           ...item,
           price: parseFloat(item.price.replace("$", "")),

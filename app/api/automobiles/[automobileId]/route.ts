@@ -5,7 +5,7 @@ import prismadb from "@/lib/prismadb";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { serviceId: string } }
+  { params }: { params: { automobileId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -14,17 +14,17 @@ export async function DELETE(
       return new NextResponse("Unauthenticated", { status: 403 });
     }
 
-    if (!params.serviceId) {
+    if (!params.automobileId) {
       return new NextResponse("Service Id is required", { status: 405 });
     }
 
-    const service = await prismadb.service.delete({
+    const automobile = await prismadb.automobile.delete({
       where: {
-        id: params.serviceId,
+        id: params.automobileId,
       },
     });
 
-    return NextResponse.json(service);
+    return NextResponse.json(automobile);
   } catch (error) {
     console.log("[CATEGORIES_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
@@ -33,47 +33,35 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { serviceId: string } }
+  { params }: { params: { automobileId: string } }
 ) {
   try {
     const { userId } = auth();
 
     const body = await req.json();
-    const { name, price, description } = body;
+    const { type, price, description } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 403 });
     }
 
-    if (!params.serviceId) {
+    if (!params.automobileId) {
       return new NextResponse("Service Id is required", { status: 405 });
     }
 
-    const updatedService = await prismadb.service.update({
+    const updatedService = await prismadb.automobile.update({
       where: {
-        id: params.serviceId,
+        id: params.automobileId,
       },
 
       data: {
-        name,
+        type,
         price,
         description,
       },
     });
 
-    const updatedServicess = await prismadb.service.update({
-      where: {
-        id: params.serviceId,
-      },
-
-      data: {
-        name,
-        price,
-        description,
-      },
-    });
-
-    return NextResponse.json(updatedServicess);
+    return NextResponse.json(updatedService);
   } catch (error) {
     console.log("[CATEGORIES_POST]", error);
     return new NextResponse("Internal error", { status: 500 });

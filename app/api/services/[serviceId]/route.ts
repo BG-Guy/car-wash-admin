@@ -61,19 +61,7 @@ export async function PATCH(
       },
     });
 
-    const updatedServicess = await prismadb.service.update({
-      where: {
-        id: params.serviceId,
-      },
-
-      data: {
-        name,
-        price,
-        description,
-      },
-    });
-
-    return NextResponse.json(updatedServicess);
+    return NextResponse.json(updatedService);
   } catch (error) {
     console.log("[CATEGORIES_POST]", error);
     return new NextResponse("Internal error", { status: 500 });

@@ -21,17 +21,18 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AutomobileColumn } from "@/app/(root)/automobiles/components/column";
+import { AlertModal } from "@/components/modals/alert-modal";
 
-interface DataTableProps<TData, TValue> {
+interface AutomobileTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   initialData: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function AutomobileTable<TData, TValue>({
   columns,
   initialData,
-}: DataTableProps<TData, TValue>) {
-  const [changeAutobmobile, setChangedAutomobiles] = useState<
+}: AutomobileTableProps<TData, TValue>) {
+  const [changedAutomobile, setChangedAutomobiles] = useState<
     AutomobileColumn[]
   >([]);
   const router = useRouter();
@@ -40,14 +41,14 @@ export function DataTable<TData, TValue>({
 
   const updateOrAddItem = (item: AutomobileColumn) => {
     // If there isn't any item in the array, add the item
-    if (changeAutobmobile.length === 0) {
+    if (changedAutomobile.length === 0) {
       setChangedAutomobiles((prevService) => {
         return [...prevService, item];
       });
       return;
     }
 
-    if (changeAutobmobile.some((automobile) => automobile.id === item.id)) {
+    if (changedAutomobile.some((automobile) => automobile.id === item.id)) {
       setChangedAutomobiles((prevServices) => {
         // Replacing the existing item
         return prevServices.map((automobile) =>
@@ -64,12 +65,15 @@ export function DataTable<TData, TValue>({
 
   const onSave = async () => {
     try {
-      const updatePromises = changeAutobmobile.map(async (item) => {
+      const updatePromises = changedAutomobile.map(async (item) => {
         const formattedItem = {
           ...item,
           price: parseFloat(item.price.replace("$", "")),
         };
-        await axios.patch(`/api/services/${formattedItem.id}`, formattedItem);
+        await axios.patch(
+          `/api/automobiles/${formattedItem.id}`,
+          formattedItem
+        );
       });
 
       // Wait for all promises to settle
