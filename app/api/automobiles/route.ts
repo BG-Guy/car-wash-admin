@@ -9,13 +9,13 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { name, price, description } = body;
+    const { type, price, description } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 403 });
     }
 
-    if (!name) {
+    if (!type) {
       return new NextResponse("Name is required", { status: 400 });
     }
 
@@ -23,15 +23,15 @@ export async function POST(req: Request) {
       return new NextResponse("description ID is required", { status: 400 });
     }
 
-    const service = await prismadb.service.create({
+    const automobile = await prismadb.automobile.create({
       data: {
-        name,
+        type,
         price,
         description,
       },
     });
 
-    return NextResponse.json(service);
+    return NextResponse.json(automobile);
   } catch (error) {
     console.log("[CATEGORIES_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
@@ -40,9 +40,9 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const services = await prismadb.service.findMany();
+    const automobiles = await prismadb.automobile.findMany();
 
-    return NextResponse.json(services);
+    return NextResponse.json(automobiles);
   } catch (error) {
     console.log("[CATEGORIES_GET]", error);
     return new NextResponse("Internal error", { status: 500 });

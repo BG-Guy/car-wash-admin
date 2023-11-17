@@ -1,23 +1,23 @@
 import { Heading } from "@/components/ui/heading";
-import { ServiceColumn, columns } from "./column";
-import { ServiceForm } from "./service-form";
+import { AutomobileColumn, columns } from "./column";
+import { AutomobileForm } from "./automobile-form";
 import { DataTable } from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 
-interface ServiceClientProps {
-  data: ServiceColumn[];
+interface AutomobileClientProps {
+  data: AutomobileColumn[];
 }
 
-export const ServiceClient: React.FC<ServiceClientProps> = ({ data }) => {
+export const AutomobileClient: React.FC<AutomobileClientProps> = ({ data }) => {
   return (
     <div className="flex flex-col rounded-xl h-full w-full">
       <Heading
-        title={`Services`}
+        title={`Automobiles`}
         description="Manage services for your store"
       />
       <Separator orientation="horizontal" className="my-4" />
-      <ServiceForm initialData={data} />
+      <AutomobileForm initialData={data} />
       <Separator orientation="vertical" className="mb-4" />
       <DataTable columns={columns} initialData={data} />
     </div>

@@ -11,27 +11,29 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { Service } from "@prisma/client";
+import { Automobile } from "@prisma/client";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { ServiceColumn } from "./column";
+import { AutomobileColumn } from "./column";
 
 const formSchema = z.object({
-  name: z.string().min(1),
+  type: z.string().min(1),
   price: z.coerce.number().min(1),
   description: z.string().min(1),
 });
 
-type ServiceFormValues = z.infer<typeof formSchema>;
+type AutomobileFormValues = z.infer<typeof formSchema>;
 
-interface ServiceFormProps {
-  initialData: ServiceColumn;
+interface AutomobileFormProps {
+  initialData: AutomobileColumn;
 }
 
-export const ServiceForm: React.FC<ServiceFormProps> = ({ initialData }) => {
+export const AutomobileForm: React.FC<AutomobileFormProps> = ({
+  initialData,
+}) => {
   const [loading, setLoading] = useState(false);
   const params = useParams();
 
@@ -43,30 +45,31 @@ export const ServiceForm: React.FC<ServiceFormProps> = ({ initialData }) => {
         price: parseFloat(String(initialData?.price)),
       }
     : {
-        name: "",
+        type: "",
         price: 0,
         description: "",
       };
 
-  const form = useForm<ServiceFormValues>({
+  const form = useForm<AutomobileFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
 
   const toastMessage = "success baby you will get it";
 
-  const onSubmit = async (data: ServiceFormValues) => {
+  const onSubmit = async (data: AutomobileFormValues) => {
     try {
       setLoading(true);
       // if (initialData) {
       //   await axios.patch(`/api/services/${params.serviceId}`, data);
       // } else {
-      await axios.post(`/api/services`, data);
+      await axios.post(`/api/automobiles`, data);
       // }
       toast.success(toastMessage);
       router.refresh();
       window.location.reload();
     } catch (error: any) {
+      console.log("🚀 ~ file: automobile-form.tsx:72 ~ onSubmit ~ data:", data);
       toast.error("Something went wrong.");
     } finally {
       setLoading(false);
@@ -79,14 +82,14 @@ export const ServiceForm: React.FC<ServiceFormProps> = ({ initialData }) => {
         <div className="md:grid md:grid-cols-4 gap-8">
           <FormField
             control={form.control}
-            name="name"
+            name="type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="ps-3">Service Name</FormLabel>
+                <FormLabel className="ps-3">Automobile Type</FormLabel>
                 <FormControl>
                   <Input
                     disabled={loading}
-                    placeholder="Service name"
+                    placeholder="Automobile type"
                     {...field}
                   />
                 </FormControl>
@@ -100,12 +103,12 @@ export const ServiceForm: React.FC<ServiceFormProps> = ({ initialData }) => {
             name="price" // changed the name to "price"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="ps-3">Service Price</FormLabel>
+                <FormLabel className="ps-3">Automobile Price</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     disabled={loading}
-                    placeholder="Service Price"
+                    placeholder="Automobile Price"
                     {...field}
                   />
                 </FormControl>
@@ -119,11 +122,11 @@ export const ServiceForm: React.FC<ServiceFormProps> = ({ initialData }) => {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="ps-3">Service Description</FormLabel>
+                <FormLabel className="ps-3">Automobile Description</FormLabel>
                 <FormControl>
                   <Input
                     disabled={loading}
-                    placeholder="Service Description"
+                    placeholder="Automobile Description"
                     {...field}
                   />
                 </FormControl>

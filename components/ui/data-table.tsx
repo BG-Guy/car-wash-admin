@@ -1,13 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -20,28 +17,104 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { AutomobileColumn } from "@/app/(root)/automobiles/components/column";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  initialData: TData[];
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
+  initialData,
 }: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [changeAutobmobile, setChangedAutomobiles] = useState<
+    AutomobileColumn[]
+  >([]);
+  const router = useRouter();
+  console.log("ROUTER REFRESHED");
+
+  const [data, setData] = useState(initialData);
+
+  const updateOrAddItem = (item: AutomobileColumn) => {
+    // If there isn't any item in the array, add the item
+    if (changeAutobmobile.length === 0) {
+      setChangedAutomobiles((prevService) => {
+        return [...prevService, item];
+      });
+      return;
+    }
+
+    if (changeAutobmobile.some((automobile) => automobile.id === item.id)) {
+      setChangedAutomobiles((prevServices) => {
+        // Replacing the existing item
+        return prevServices.map((automobile) =>
+          automobile.id === item.id ? item : automobile
+        );
+      });
+    } else {
+      setChangedAutomobiles((prevServices) => {
+        // Add the new item
+        return [...prevServices, item];
+      });
+    }
+  };
+
+  const onTest = () => {
+    router.refresh();
+    console.log("ON TEST");
+  };
+
+  const onSave = async () => {
+    try {
+      const updatePromises = changeAutobmobile.map(async (item) => {
+        const formattedItem = {
+          ...item,
+          price: parseFloat(item.price.replace("$", "")),
+        };
+        await axios.patch(`/api/services/${formattedItem.id}`, formattedItem);
+      });
+
+      // Wait for all promises to settle
+      await Promise.all(updatePromises);
+      router.refresh();
+      toast.success("success baby you will get it");
+      const updatedPromises: TData[] = await axios.get("/api/services");
+      window.location.reload();
+    } catch (error: any) {
+      toast.error("something went wrong");
+    }
+  };
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     state: {},
+    meta: {
+      updateData: (row: any, columnId: any, value: any) =>
+        setData((old) =>
+          old.map((_row, index) => {
+            if (index === row.index) {
+              updateOrAddItem({ ...row.original, [columnId]: value });
+
+              return {
+                ..._row,
+                [columnId]: value,
+              };
+            }
+            return _row;
+          })
+        ),
+    },
   });
 
   return (
     <div>
-      <div className="rounded-md border">
+      <div className="mb-2 rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -91,6 +164,9 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+      <Button onClick={() => onSave()} size={"lg"} variant="default">
+        SAVE
+      </Button>
     </div>
   );
 }

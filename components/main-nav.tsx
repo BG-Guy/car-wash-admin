@@ -14,13 +14,18 @@ export function MainNav({
 
   const routes = [
     {
+      href: `/home`,
+      label: "Home",
+      active: pathname === `/home`,
+    },
+    {
       href: `/services`,
       label: "Services",
       active: pathname === `/services`,
     },
     {
       href: `/automobiles`,
-      label: "Autmobiles",
+      label: "Automobiles",
       active: pathname === `/automobiles`,
     },
   ];
