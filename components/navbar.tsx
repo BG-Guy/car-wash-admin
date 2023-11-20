@@ -1,18 +1,8 @@
-import { UserButton, auth } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
-
 import { MainNav } from "@/components/main-nav";
-import prismadb from "@/lib/prismadb";
-import Container from "./Container";
 import Logo from "./Logo";
+import Container from "./container";
 
 const Navbar = async () => {
-  const { userId } = auth();
-
-  if (!userId) {
-    redirect("/sign-in");
-  }
-
   return (
     <div className="border-b mb-2 py-1">
       <Container>
@@ -20,7 +10,7 @@ const Navbar = async () => {
           <Logo />
           <MainNav />
           <div className="ml-4 flex items-center ">
-            <UserButton afterSignOutUrl="/" />
+            {/* <UserButton afterSignOutUrl="/" /> */}
           </div>
         </div>
       </Container>

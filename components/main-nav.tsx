@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
@@ -10,23 +9,32 @@ export function MainNav({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
-  const params = useParams();
 
   const routes = [
     {
-      href: `/home`,
+      href: `/`,
       label: "Home",
-      active: pathname === `/home`,
+      active: pathname === `/`,
     },
     {
-      href: `/services`,
+      href: `/api/auth/signin`,
+      label: "sign-in",
+      active: pathname === `/api/auth/signin`,
+    },
+    {
+      href: `/api/auth/signout`,
+      label: "sign-out",
+      active: pathname === `/api/auth/signout`,
+    },
+    {
+      href: `/admin/services`,
       label: "Services",
-      active: pathname === `/services`,
+      active: pathname === `/admin/services`,
     },
     {
-      href: `/automobiles`,
+      href: `/admin/automobiles`,
       label: "Automobiles",
-      active: pathname === `/automobiles`,
+      active: pathname === `/admin/automobiles`,
     },
   ];
 
