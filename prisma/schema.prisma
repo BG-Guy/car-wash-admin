@@ -9,7 +9,23 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
   relationMode = "prisma"
+}
 
+enum ModelType {
+  SERVICE
+  AUTOMOBILE
+}
+
+model OrderItem {
+    id              String        @id @default(uuid())
+    // modelType       ModelType
+    automobileId    String?
+    serviceId       String?
+    services        Service[]     @relation("ServiceToOrderitem")
+    automobile      Automobile?   @relation("AutomobileToOrderitem", fields: [automobileId], references: [id])
+    order           Order[]       @relation("OrderToOrderItem")
+    @@index([automobileId])
+    @@index([serviceId])
 }
 
 model Service {
@@ -17,7 +33,10 @@ model Service {
   name            String
   price           Decimal
   description     String
-  orders          Order[]     @relation("OrderToService")
+  serviceId       String?
+  // orders          Order[]     @relation("OrderToService")
+  orderItem       OrderItem[] @relation("ServiceToOrderitem")  
+
   
 }
 
@@ -27,23 +46,28 @@ model Automobile {
   description     String
   price           Decimal
   images          Image[]
-  order           Order[]     @relation("OrderToAutomobile")
+  // order           Order[]     @relation("OrderToAutomobile")
+  orderItem       OrderItem[] @relation("AutomobileToOrderitem")
+
   
 }
 
 model Image {
-  id          String @id @default(uuid())
-  automobileId String
-  automobile   Automobile @relation(fields: [automobileId], references: [id], onDelete: Cascade)
-  url         String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String @id @default(uuid())
+  automobileId  String
+  automobile    Automobile @relation(fields: [automobileId], references: [id], onDelete: Cascade)
+  url           String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([automobileId])
 
 }
 
 model User {
   id        String @id @default(uuid())
   name      String
+  email     String
   createdAt DateTime @default(now())
   orders    Order[]  @relation("OrderToUser")
 
@@ -52,11 +76,13 @@ model User {
 model Order {
   id           String    @id @default(uuid())
   createdAt    DateTime  @default(now())
-  services     Service[] @relation("OrderToService")
-  automobileId String
-  automobile   Automobile @relation("OrderToAutomobile" ,fields: [automobileId], references: [id])
+  orderItems    OrderItem[] @relation("OrderToOrderItem")
+  // services     Service[] @relation("OrderToService")
+  // automobileId String
+  // automobile   Automobile @relation("OrderToAutomobile" ,fields: [automobileId], references: [id])
   userId       String
   user         User       @relation("OrderToUser", fields: [userId], references: [id])
 
-  @@index([automobileId])
+  // @@index([automobileId])
+  @@index([userId])
 }

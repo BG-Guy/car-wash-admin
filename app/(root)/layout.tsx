@@ -3,8 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { options } from "../api/auth/[...nextauth]/options";
 
 import Navbar from "@/components/navbar";
-import prismadb from "@/lib/prismadb";
-import Container from "@/components/Container";
+import Container from "@/components/container";
 
 export default async function DashboardLayout({
   children,
@@ -13,9 +12,9 @@ export default async function DashboardLayout({
 }) {
   const session = await getServerSession(options);
 
-  if (!session) {
-    redirect("/api/auth/signin");
-  }
+  // if (!session) {
+  //   redirect("/api/auth/signin");
+  // }
 
   return (
     <>

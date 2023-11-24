@@ -2,6 +2,8 @@ import type { NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { GithubProfile } from "next-auth/providers/github";
+import prismadb from "@/lib/prismadb";
+import axios from "axios";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -58,10 +60,19 @@ export const options: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) token.role = user.role;
+
       return token;
     },
+
     async session({ session, token }) {
       if (session?.user) session.user.role = token.role;
+      if (session.user.user?.name && session.user.user?.email) {
+        const { name, email } = session.user.user;
+        const data = { name, email };
+        axios.post(`api/user`, data);
+        console.log("🚀 ~ file: options.ts:74 ~ session ~ data:", data);
+      }
+
       return session;
     },
   },
