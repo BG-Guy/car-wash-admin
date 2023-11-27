@@ -8,13 +8,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { SafeUser } from "@/app/types";
 
 interface Props {
-  user: User;
+  user: SafeUser;
 }
 
 export default function UserMenu({ user }: Props) {
-  const userImg = user.image;
+  const userImg = user;
 
   return (
     <div className="flex items-center justify-center cursor-pointer h-9 w-9 mx-4 rounded-full bg-slate-400 text-orange">

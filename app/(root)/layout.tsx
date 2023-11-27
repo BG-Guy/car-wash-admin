@@ -1,20 +1,17 @@
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth/next";
-import { options } from "../api/auth/[...nextauth]/options";
-
 import Navbar from "@/components/navbar";
 import Container from "@/components/container";
+import getCurrentUser from "../actions/getCurrentUser";
 
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(options);
+  const currentUser = await getCurrentUser();
 
-  // if (!session) {
-  //   redirect("/api/auth/signin");
-  // }
+  if (!currentUser) {
+    console.log("PLEASE LOGIN");
+  }
 
   return (
     <>

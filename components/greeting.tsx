@@ -1,8 +1,9 @@
+import { SafeUser } from "@/app/types";
 import { User } from "next-auth";
 import Image from "next/image";
 
 type Props = {
-  user: User;
+  user: SafeUser;
   pagetype: string;
 };
 

@@ -4,6 +4,8 @@ import { ModalProvider } from "@/providers/modal-provider";
 import { ToastProvider } from "@/providers/toast-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import AuthProvider from "@/context/AuthProvider";
+import RegisterModal from "@/components/modals/RegisterModal";
+import LoginModal from "@/components/modals/LoginModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +25,9 @@ export default function RootLayout({
         <body className={inter.className}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ToastProvider />
-            <ModalProvider />
+            {/* <ModalProvider /> */}
+            <LoginModal />
+            <RegisterModal />
             {children}
           </ThemeProvider>
         </body>

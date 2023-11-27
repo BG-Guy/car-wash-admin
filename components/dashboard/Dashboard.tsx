@@ -1,13 +1,13 @@
+import { SafeUser } from "@/app/types";
 import OrderController from "../order-controller/OrderController";
 import OrderSummary from "../order-summary/OrderSummary";
 import OrdersData from "../orders-data/OrderData";
 import Header from "./Header";
 import { cn } from "@/lib/utils";
-import { User } from "next-auth";
 
 interface DashboardProps {
   className?: string;
-  user: User;
+  user: SafeUser | null;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ className, user }) => {
@@ -20,7 +20,7 @@ const Dashboard: React.FC<DashboardProps> = ({ className, user }) => {
       )}
     >
       <Header
-        message={`Welcome Backk ${user.name} ${user.id}`}
+        message={`Welcome Backk ${user?.name} ${user?.id}`}
         type="main"
         align="start"
         className="row-start-1 row-end-2 col-start-1 col-end-8"

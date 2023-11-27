@@ -4,14 +4,15 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 import { cn } from "@/lib/utils";
+import { SafeUser } from "@/app/types";
 
-export function MainNav({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLElement>) {
+interface MainNavProps extends React.HTMLAttributes<HTMLElement> {
+  // Add the user prop to the MainNavProps
+  user: SafeUser | null;
+}
+
+export function MainNav({ className, user, ...props }: MainNavProps) {
   const pathname = usePathname();
-  const { data } = useSession();
-  const user = data?.user;
 
   const routes = [
     {
