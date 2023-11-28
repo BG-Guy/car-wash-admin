@@ -1,32 +1,44 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { options } from "@/app/api/auth/[...nextauth]/options";
+import bcrypt from "bcrypt";
 
 import prismadb from "@/lib/prismadb";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(options);
+    const currentUser = await getCurrentUser();
 
     const body = await req.json();
 
-    const { name, email } = body;
+    const { name, email, password } = body;
 
-    if (!session) {
-      return new NextResponse("Unauthenticated", { status: 403 });
+    if (currentUser) {
+      return new NextResponse("Already authenticated", { status: 403 });
     }
 
-    if (!session.user.id) {
-      return new NextResponse("Missing user id", { status: 406 });
+    const existingUser = await prismadb.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (existingUser) {
+      return new NextResponse("User already exists", { status: 405 });
     }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = await prismadb.user.create({
       data: {
         name,
         email,
-        orders: {
-          create: [],
-        },
+        hashedPassword,
+        image: "",
+        emailVerified: new Date(),
+        role: email === "guybuganim@gmail.com" ? "admin" : "user",
+        // orders: {
+        //   create: [],
+        // },
       },
     });
 
@@ -39,7 +51,7 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const session = await getServerSession(options);
+    const currentUser = await getCurrentUser();
 
     const body = await req.json();
 

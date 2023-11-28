@@ -30,10 +30,8 @@ export default async function getCurrentUser() {
       createdAt: currentUser.createdAt.toISOString(),
       updatedAt: currentUser.updatedAt.toISOString(),
       emailVerified: currentUser.emailVerified?.toISOString() || null,
-      role:
-        currentUser.id === "7233d696-3c8a-415b-9b35-8e8ef1ad9fad"
-          ? "admin"
-          : "user",
+      // role: currentUser.email === "guybuganim@gmail.com" ? "admin" : "user",
+      role: currentUser.role,
     };
   } catch (error: any) {
     console.log(error, "error 2222");

@@ -12,7 +12,7 @@ import useRentModal from "@/hooks/useRentModal";
 import { SafeUser } from "@/app/types";
 
 type Props = {
-  user: SafeUser | null;
+  user: SafeUser | null | undefined;
   pagetype: string;
 };
 
@@ -26,7 +26,6 @@ export default function UserButton({ user }: Props) {
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
-  console.log("🚀 ~ file: user-button.tsx:20 ~ UserButton ~ user:", user);
 
   const onRent = useCallback(() => {
     if (!user) {
@@ -40,9 +39,19 @@ export default function UserButton({ user }: Props) {
       {user ? (
         <UserMenu user={user} />
       ) : (
-        <div>
-          <button onClick={loginModal.onOpen}>Login</button>
-          <button onClick={() => signOut()}>LOGOUT</button>
+        <div className="space-x-4 flex flex-row">
+          <button
+            className="hover:underline cursor-pointer"
+            onClick={loginModal.onOpen}
+          >
+            Login
+          </button>
+          <button
+            className="hover:underline cursor-pointer"
+            onClick={registerModal.onOpen}
+          >
+            Register
+          </button>
         </div>
       )}
     </>

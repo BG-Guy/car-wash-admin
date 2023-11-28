@@ -8,7 +8,7 @@ import { SafeUser } from "@/app/types";
 
 interface MainNavProps extends React.HTMLAttributes<HTMLElement> {
   // Add the user prop to the MainNavProps
-  user: SafeUser | null;
+  user: SafeUser | null | undefined;
 }
 
 export function MainNav({ className, user, ...props }: MainNavProps) {

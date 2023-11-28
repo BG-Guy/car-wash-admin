@@ -1,18 +1,20 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { options } from "@/app/api/auth/[...nextauth]/options";
 
 import prismadb from "@/lib/prismadb";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(options);
+    // const session = await getServerSession(options);
+
+    const user = await getCurrentUser();
 
     const body = await req.json();
 
     const { name, price, description } = body;
 
-    if (!session) {
+    if (!user) {
       return new NextResponse("Unauthenticated", { status: 403 });
     }
 

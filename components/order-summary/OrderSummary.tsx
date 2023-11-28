@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 import Header from "../dashboard/Header";
 import SubmitBtn from "./SubmitBtn";
 import useCart from "@/hooks/use-cart";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import getCurrentUser, { getSession } from "@/app/actions/getCurrentUser";
 
 interface OrderSummaryProps {
   className?: string;
@@ -15,13 +14,6 @@ interface OrderSummaryProps {
 const OrderSummary: React.FC<OrderSummaryProps> = ({ className }) => {
   const cart = useCart();
   const data = useCart((state) => state.items);
-  // const { data: session } = useSession({
-  //   required: true,
-  //   onUnauthenticated() {
-  //     redirect("/api/auth/signin?callbackUrl=/client");
-  //   },
-  // });
-  // const loggedUser = loggedInUser();
   const order = {
     data,
   };
@@ -34,7 +26,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ className }) => {
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
   if (!isMounted) {
     return null;
   }

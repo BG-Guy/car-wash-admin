@@ -33,7 +33,6 @@ model Service {
   name            String
   price           Decimal
   description     String
-  serviceId       String?
   // orders          Order[]     @relation("OrderToService")
   orderItem       OrderItem[] @relation("ServiceToOrderitem")  
 
@@ -92,7 +91,7 @@ model User {
   hashedPassword  String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  role            String?                     
+  role            String?
   accounts      Account[]
   sessions      Session[]
   orders    Order[]  @relation("OrderToUser")

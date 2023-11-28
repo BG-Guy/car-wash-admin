@@ -35,8 +35,13 @@ const RegisterModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
+    console.log(
+      "🚀 ~ file: RegisterModal.tsx:36 ~ RegisterModal ~ data:",
+      data
+    );
+
     axios
-      .post("/api/register", data)
+      .post("/api/user", data)
       .then(() => {
         toast.success("Registered!");
         registerModal.onClose();
@@ -57,7 +62,7 @@ const RegisterModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Welcome to Airbnb" description="Create an account!" />
+      <Heading title="Welcome to WashGB" description="Create an account!" />
       <ModalInput
         id="email"
         label="Email"
@@ -94,12 +99,6 @@ const RegisterModal = () => {
         label="Continue with Google"
         icon={FcGoogle}
         onClick={() => signIn("google")}
-      />
-      <ModalButton
-        outline
-        label="Continue with Github"
-        icon={AiFillGithub}
-        onClick={() => signIn("github")}
       />
       <div
         className="
