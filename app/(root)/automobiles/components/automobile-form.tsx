@@ -63,6 +63,7 @@ export const AutomobileForm: React.FC<AutomobileFormProps> = ({
       // if (initialData) {
       //   await axios.patch(`/api/services/${params.serviceId}`, data);
       // } else {
+      console.log("🚀 ~ file: automobile-form.tsx:68 ~ onSubmit ~ data:", data);
       await axios.post(`/api/automobiles`, data);
       // }
       toast.success(toastMessage);

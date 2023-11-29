@@ -90,7 +90,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ className }) => {
           {getSelectedVehicle()}
         </div>
       </div>
-      <SubmitBtn className="w-1/2 m-auto p-1  " data={data} order={order} />
+      <SubmitBtn className="w-1/2 m-auto p-1" data={data} order={order} />
     </div>
   );
 };

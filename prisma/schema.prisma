@@ -21,8 +21,8 @@ model OrderItem {
     // modelType       ModelType
     automobileId    String?
     serviceId       String?
-    services        Service[]     @relation("ServiceToOrderitem")
-    automobile      Automobile?   @relation("AutomobileToOrderitem", fields: [automobileId], references: [id])
+    service         Service?       @relation("ServiceToOrderitem", fields: [serviceId], references: [id])
+    automobile      Automobile?    @relation(fields: [automobileId], references: [id])
     order           Order[]       @relation("OrderToOrderItem")
     @@index([automobileId])
     @@index([serviceId])
@@ -46,7 +46,8 @@ model Automobile {
   price           Decimal
   images          Image[]
   // order           Order[]     @relation("OrderToAutomobile")
-  orderItem       OrderItem[] @relation("AutomobileToOrderitem")
+  // orderItemId     String?      @unique
+  orderItem       OrderItem[]  
 
   
 }

@@ -13,6 +13,14 @@ const SubmitBtn: React.FC<SubmitBtnProps> = ({ data, className }) => {
     return data.some((item) => item.type);
   };
 
+  const orderItemIds = data.map((orderItem) => {
+    return orderItem.id;
+  });
+  console.log(
+    "🚀 ~ file: SubmitBtn.tsx:19 ~ orderItemIds ~ orderItemIds:",
+    data
+  );
+
   const onSubmit = async () => {
     if (!isValid) return console.log("VEHICLE IS MISSING");
 

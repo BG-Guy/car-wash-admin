@@ -14,6 +14,7 @@ const AutomobileBtn: React.FC<AutomobileBtnProps> = ({ automobileData }) => {
     event.stopPropagation();
 
     cart.addItem(automobileData);
+    axios.post(`/api/automobile`);
   };
   const [isActive, setIsActive] = useState(false);
   return (
