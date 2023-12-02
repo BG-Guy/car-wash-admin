@@ -2,19 +2,20 @@ import { cn } from "@/lib/utils";
 // import Button from "../button";
 import { Service } from "@prisma/client";
 import FeatureBtn from "./FeatureBtn";
+import { ServiceColumn } from "@/app/(root)/services/components/column";
 
 interface ServiceSelectorProps {
   className?: string;
-  services: Service[];
+  formattedServices: ServiceColumn[];
 }
 
 const ServiceSelector: React.FC<ServiceSelectorProps> = ({
   className,
-  services,
+  formattedServices,
 }) => {
   return (
     <div className={cn("grid2x2-layout", className)}>
-      {services.map((serviceData) => (
+      {formattedServices.map((serviceData) => (
         <FeatureBtn serviceData={serviceData} />
       ))}
     </div>

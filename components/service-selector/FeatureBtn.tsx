@@ -1,10 +1,10 @@
 "use client";
+import { ServiceColumn } from "@/app/(root)/services/components/column";
 import useCart from "@/hooks/use-cart";
-import { Service } from "@prisma/client";
 import { MouseEventHandler, useState } from "react";
 
 interface ServiceBtnProps {
-  serviceData: Service;
+  serviceData: ServiceColumn;
 }
 
 const ServiceBtn: React.FC<ServiceBtnProps> = ({ serviceData }) => {

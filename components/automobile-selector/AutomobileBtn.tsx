@@ -1,10 +1,10 @@
 "use client";
+import { AutomobileColumn } from "@/app/(root)/automobiles/components/column";
 import useCart from "@/hooks/use-cart";
-import { Automobile } from "@prisma/client";
 import { MouseEventHandler, useState } from "react";
 
 interface AutomobileBtnProps {
-  automobileData: Automobile;
+  automobileData: AutomobileColumn;
 }
 
 const AutomobileBtn: React.FC<AutomobileBtnProps> = ({ automobileData }) => {
@@ -14,7 +14,6 @@ const AutomobileBtn: React.FC<AutomobileBtnProps> = ({ automobileData }) => {
     event.stopPropagation();
 
     cart.addItem(automobileData);
-    axios.post(`/api/automobile`);
   };
   const [isActive, setIsActive] = useState(false);
   return (

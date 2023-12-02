@@ -5,6 +5,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { Order } from "@prisma/client";
 
 interface CartStore {
+  removeAll: any;
   items: Order[];
   addItem: any;
   removeItem: (id: string) => void;
@@ -35,10 +36,12 @@ const useCart = create(
         console.log("🚀 ~ file: use-cart.tsx:38 ~ cartItems:", cartItems);
         toast.success("Item added to cart.");
       },
+
       removeItem: (id: string) => {
         set({ items: [...get().items.filter((item) => item.id !== id)] });
         toast.success("Item removed from cart.");
       },
+
       removeAll: () => set({ items: [] }),
     }),
     {
