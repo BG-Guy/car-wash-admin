@@ -1,3 +1,4 @@
+import { Automobile, Service } from "@prisma/client";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -9,6 +10,13 @@ export const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
 });
+
+export function formatOrderItem(orderItem: Service | Automobile) {
+  return {
+    ...orderItem,
+    price: formatter.format(orderItem.price.toNumber()),
+  };
+}
 
 export function checkUserRole(session: any) {
   if (

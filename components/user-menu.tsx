@@ -17,6 +17,10 @@ interface Props {
 
 export default function UserMenu({ user }: Props) {
   const userInitials = `${user.name?.split("")[0]}${user.name?.split("")[1]}`;
+  const isAdmin = user.role === "admin";
+  const getUserProfileHref = () => {
+    return isAdmin ? "/admin/user-profile" : "/user-profile";
+  };
   return (
     <div className="flex items-center justify-center cursor-pointer h-9 w-9 mx-4 rounded-full bg-slate-400 text-orange">
       <DropdownMenu>
@@ -39,7 +43,7 @@ export default function UserMenu({ user }: Props) {
             <button onClick={() => signOut()}>SIGN OUT</button>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href={""}>User Profile</Link>
+            <Link href={getUserProfileHref()}>User Profile</Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
