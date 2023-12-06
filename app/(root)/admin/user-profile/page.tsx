@@ -5,6 +5,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import { getOrderById } from "@/app/actions/getActions";
 import AdminStatistics from "./components/statistics";
 import { format } from "date-fns";
+import { wrapGrid } from "animate-css-grid";
 
 const userProfilePage = async () => {
   const user = await getCurrentUser();
@@ -49,7 +50,7 @@ const userProfilePage = async () => {
       <OrdersList
         orders={formattedOrders}
         className="sm:w-[50%] lg:w-[75%] sm:grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3
-                   grid-rows-10 transition-row-span  w-screen max-h-screen inline-block gap-2"
+                   grid-rows-10 grid-flow-dense	 grid-container transition-row-span  w-screen max-h-screen inline-block gap-2"
       />
       <AdminStatistics
         className="sm:w-[50%] sm:flex sm:flex-col lg:w-[25%] 

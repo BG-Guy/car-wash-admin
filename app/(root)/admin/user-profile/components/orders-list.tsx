@@ -15,7 +15,7 @@ export const OrdersList: React.FC<OrdersListProps> = async ({
 }) => {
   return (
     orders && (
-      <div className={cn("p-2 overflow-y-scroll", className)}>
+      <div className={cn("p-2 overflow-y-scroll transition-all", className)}>
         {orders.map((formattedOrder) => (
           <OrderCard
             order={formattedOrder}

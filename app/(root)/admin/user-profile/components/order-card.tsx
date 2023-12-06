@@ -3,7 +3,8 @@ import { getUserById } from "@/app/actions/getActions";
 import { FormattedOrder } from "@/app/types";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import { wrapGrid } from "animate-css-grid";
+import React, { useRef, useState } from "react";
 import { BiCheckCircle } from "react-icons/bi";
 import { MdOutlineCancel } from "react-icons/md";
 
@@ -13,7 +14,12 @@ interface OrderCardProps {
 }
 
 export const OrderCard: React.FC<OrderCardProps> = ({ order, className }) => {
-  console.log("🚀 ~ file: order-card.tsx:16 ~ order:", order);
+  // console.log("🚀 ~ file: order-card.tsx:16 ~ order:", order);
+  // const gridContainer = useRef(null);
+  // const gridContainer_ = gridContainer.current;
+  // const result = gridContainer_..querySelector(".grid-container__");
+  // wrapGrid(gridContainer_, { duration: 600, easing: "backInOut" });
+
   const [moreInfoToggle, setMoreInfoToggle] = useState(false);
   const handleSetMoreInfo = () => {
     console.log(
@@ -48,15 +54,16 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order, className }) => {
   };
 
   const cardSize = () => {
-    return moreInfoToggle ? "row-span-4" : "aspect-[16/6]";
+    return moreInfoToggle ? "row-span-6 p-10" : "aspect-[16/6]";
   };
 
   return (
     order && (
       <>
         <div
+          // ref={gridContainer}
           className={cn(
-            ` min-w-[300px] row-span-2 transition-transform border border-black rounded-xl mt-2`,
+            ` min-w-[300px] row-span-2 transition-all border border-black rounded-xl mt-2 overflow-y-scroll`,
             className,
             cardSize()
           )}
