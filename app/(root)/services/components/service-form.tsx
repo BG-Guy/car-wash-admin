@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { ServiceColumn } from "./column";
+import { FormattedService } from "@/app/types";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -28,7 +28,7 @@ const formSchema = z.object({
 type ServiceFormValues = z.infer<typeof formSchema>;
 
 interface ServiceFormProps {
-  initialData: ServiceColumn;
+  initialData: FormattedService;
 }
 
 export const ServiceForm: React.FC<ServiceFormProps> = ({ initialData }) => {

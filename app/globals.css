@@ -74,6 +74,10 @@
     @apply bg-background text-foreground;
   }
 
+  .transition-row-span {
+    transition: grid-template-rows 0.3s ease-in-out;
+  }
+
   .btn-primary {
     @apply w-32 h-16 py-2 px-4 hover:bg-gray-600 place-items-center hover:cursor-pointer text-white font-semibold rounded-lg shadow-md focus:outline-none;
   }

@@ -1,27 +1,30 @@
+"use client";
 import React from "react";
 import { OrderCard } from "./order-card";
-import { Order } from "@prisma/client";
-import {
-  getAutomobileByOrder,
-  getOrderById,
-  getServices,
-} from "@/app/actions/getActions";
-import prismadb from "@/lib/prismadb";
+import { FormattedOrder } from "@/app/types";
+import { cn } from "@/lib/utils";
 
 interface OrdersListProps {
-  orders: any[];
+  orders?: FormattedOrder[];
+  className?: string;
 }
 
-export const OrdersList: React.FC<OrdersListProps> = async ({ orders }) => {
+export const OrdersList: React.FC<OrdersListProps> = async ({
+  orders,
+  className,
+}) => {
   return (
     orders && (
-      <>
-        <div>
-          {orders.map((formattedOrder) => (
-            <OrderCard order={formattedOrder} />
-          ))}
-        </div>
-      </>
+      <div className={cn("p-2 overflow-y-scroll", className)}>
+        {orders.map((formattedOrder) => (
+          <OrderCard
+            order={formattedOrder}
+            className="md:w-[48%] mx-auto sm:mx-0 max-w-[400px] w-full flex"
+            key={formattedOrder.id}
+          />
+        ))}
+        {/* <button onClick={() => test()}>TEST</button> */}
+      </div>
     )
   );
 };

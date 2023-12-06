@@ -1,13 +1,10 @@
 import { cn, formatter } from "@/lib/utils";
-import FeatureSelector from "../service-selector/ServiceSelector";
-import VehicleSelector from "../automobile-selector/AutomobileSelector";
 import Header from "../dashboard/Header";
 import prismadb from "@/lib/prismadb";
-import { Service } from "@prisma/client";
-import { ServiceColumn } from "@/app/(root)/services/components/column";
 import AutomobileSelector from "../automobile-selector/AutomobileSelector";
 import ServiceSelector from "../service-selector/ServiceSelector";
 import { AutomobileColumn } from "@/app/(root)/automobiles/components/column";
+import { FormattedService } from "@/app/types";
 
 interface OrderControllerProps {
   className?: string;
@@ -17,7 +14,7 @@ const OrderController: React.FC<OrderControllerProps> = async ({
   className,
 }) => {
   const services = await prismadb.service.findMany();
-  const formattedServices: ServiceColumn[] = services.map((service) => ({
+  const formattedServices: FormattedService[] = services.map((service) => ({
     id: service.id,
     name: service.name,
     price: formatter.format(service.price.toNumber()),

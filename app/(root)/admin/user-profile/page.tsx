@@ -3,6 +3,8 @@ import { OrdersList } from "./components/orders-list";
 import prismadb from "@/lib/prismadb";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import { getOrderById } from "@/app/actions/getActions";
+import AdminStatistics from "./components/statistics";
+import { format } from "date-fns";
 
 const userProfilePage = async () => {
   const user = await getCurrentUser();
@@ -25,11 +27,12 @@ const userProfilePage = async () => {
   const formattedOrders = await Promise.all(
     orders.map(async (order) => {
       const formattedOrder = {
-        userId: order?.userId,
         id: order?.id,
+        createdAt: format(order.createdAt, "mm/dd/yyyy, h:mm:ss a"),
+        user,
         automobile: order?.orderItems
           .map((item) => item.automobile)
-          .filter((automobile) => automobile !== null),
+          .find((automobile) => automobile !== null),
         services: order?.orderItems
           .map((item) => item.service)
           .filter((service) => service !== null),
@@ -37,9 +40,21 @@ const userProfilePage = async () => {
       return formattedOrder;
     })
   );
+
   return (
-    <div className="grid grid-cols-2">
-      <OrdersList orders={formattedOrders} />
+    <div
+      className="sm:flex sm:w-full sm:justify-evenly sm:overflow-x-hidden 
+                 overflow-x-scroll  min-w-full whitespace-nowrap"
+    >
+      <OrdersList
+        orders={formattedOrders}
+        className="sm:w-[50%] lg:w-[75%] sm:grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3
+                   grid-rows-10 transition-row-span  w-screen max-h-screen inline-block gap-2"
+      />
+      <AdminStatistics
+        className="sm:w-[50%] sm:flex sm:flex-col lg:w-[25%] 
+                   w-screen inline-block  "
+      />
     </div>
   );
 };

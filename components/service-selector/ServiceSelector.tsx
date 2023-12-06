@@ -2,11 +2,11 @@ import { cn } from "@/lib/utils";
 // import Button from "../button";
 import { Service } from "@prisma/client";
 import FeatureBtn from "./FeatureBtn";
-import { ServiceColumn } from "@/app/(root)/services/components/column";
+import { FormattedService } from "@/app/types";
 
 interface ServiceSelectorProps {
   className?: string;
-  formattedServices: ServiceColumn[];
+  formattedServices: FormattedService[];
 }
 
 const ServiceSelector: React.FC<ServiceSelectorProps> = ({

@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { ServiceColumn } from "./column";
+import { FormattedService } from "@/app/types";
 
 interface ServiceTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -31,12 +31,14 @@ export function ServiceTable<TData, TValue>({
   columns,
   initialData,
 }: ServiceTableProps<TData, TValue>) {
-  const [changedServices, setChangedServices] = useState<ServiceColumn[]>([]);
+  const [changedServices, setChangedServices] = useState<FormattedService[]>(
+    []
+  );
   const router = useRouter();
 
   const [data, setData] = useState(initialData);
 
-  const updateOrAddItem = (item: ServiceColumn) => {
+  const updateOrAddItem = (item: FormattedService) => {
     // If there isn't any item in the array, add the item
     if (changedServices.length === 0) {
       setChangedServices((prevService) => {

@@ -1,5 +1,7 @@
 import prismadb from "@/lib/prismadb";
 import { formatter } from "@/lib/utils";
+import { NextResponse } from "next/server";
+import { formatUser } from "./formatActions";
 
 export type Automobile = {
   id: string;
@@ -68,4 +70,22 @@ export async function getOrder(userId: string) {
   });
 
   return orders;
+}
+
+export async function getUserById(userId?: string) {
+  try {
+    const user = await prismadb.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      return new NextResponse("Cant find order's user", { status: 403 });
+    }
+    const formattedUser = formatUser(user);
+    return formattedUser;
+  } catch (error: any) {
+    console.log("🚀 ~ file: getActions.ts:77 ~ getUserById ~ error:", error);
+  }
 }

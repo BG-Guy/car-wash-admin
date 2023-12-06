@@ -1,12 +1,12 @@
 import { formatter } from "@/lib/utils";
 import { AutomobileClient } from "./components/client";
 import prismadb from "@/lib/prismadb";
-import { AutomobileColumn } from "./components/column";
+import { FormattedAutomobile } from "@/app/types";
 
 const AutomobilesPage = async () => {
   const automobiles = await prismadb.automobile.findMany();
 
-  const formattedAutomobiles: AutomobileColumn[] = automobiles.map(
+  const formattedAutomobiles: FormattedAutomobile[] = automobiles.map(
     (automobile) => ({
       id: automobile.id,
       type: automobile.type,

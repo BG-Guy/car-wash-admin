@@ -1,13 +1,14 @@
 import { Heading } from "@/components/ui/heading";
-import { ServiceColumn, columns } from "./column";
+import { columns } from "./column";
 import { ServiceForm } from "./service-form";
 import { DataTable } from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { ServiceTable } from "./services-table";
+import { FormattedService } from "@/app/types";
 
 interface ServiceClientProps {
-  data: ServiceColumn[];
+  data: FormattedService[];
 }
 
 export const ServiceClient: React.FC<ServiceClientProps> = ({ data }) => {
